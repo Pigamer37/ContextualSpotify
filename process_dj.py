@@ -1090,7 +1090,7 @@ def spotify_play(genre):
         print(
             f"\x1b[31mERROR: Could not connect to the music server at {url}.\x1b[39m Details: {e}"
         )
-        if response.status_code == 403 or response.status_code == 400:
+        if response.status_code == 403:
             response_data = response.json()
             print(
                 f"\x1b[31mError\x1b[39m thrown by \x1b[32mSpotify\x1b[39m: {response_data["error"]["message"]}."
