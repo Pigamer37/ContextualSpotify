@@ -17,6 +17,8 @@ from dotenv import load_dotenv
 import threading
 from base64 import urlsafe_b64encode
 import webbrowser
+import configparser
+import re
 
 load_dotenv()
 
@@ -126,6 +128,9 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
     if verbose:
         print(f"   DEBUG: Processing '{process_name}' -> '{p_name}'")
 
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
     # More reliable mapping for Mac apps running under generic names like 'Electron'
     if "electron" in p_name:
         if "visual studio code.app" in cmdline_lower:
@@ -205,8 +210,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "gamepass",
     ]
     if any(keyword in p_name for keyword in gaming_keywords):
-        print(f"\x1b[36mMatched media -> epic orchestral\x1b[39m")
-        return "epic orchestral"
+        print(f"\x1b[36mMatched 'gaming'\x1b[39m")
+        return config.get("Playlists", "gaming")
 
     # Development & Programming
     dev_keywords = [
@@ -286,10 +291,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "sqlmap",
     ]
     if any(keyword in p_name for keyword in dev_keywords):
-        print(
-            f"\x1b[36mMatched developement -> https://open.spotify.com/playlist/2mEbLfkLgMMh1alVmjr1ii?si=59a9aa386c60480b\x1b[39m"
-        )
-        return "2mEbLfkLgMMh1alVmjr1ii?si=59a9aa386c60480b"
+        print(f"\x1b[36mMatched 'development'\x1b[39m")
+        return config.get("Playlists", "development")
 
     # Web Browsing
     browser_keywords = [
@@ -310,10 +313,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "msedge",
     ]
     if any(keyword in p_name for keyword in browser_keywords):
-        print(
-            f"\x1b[36mMatched browser -> https://open.spotify.com/playlist/0KWg9t6lxnflyv2bABUv4f?si=35091383766a4ed3\x1b[39m"
-        )
-        return "0KWg9t6lxnflyv2bABUv4f?si=35091383766a4ed3"
+        print(f"\x1b[36mMatched 'browser'\x1b[39m")
+        return config.get("Playlists", "browser")
 
     # Media & Entertainment
     media_keywords = [
@@ -353,8 +354,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "studio one",
     ]
     if any(keyword in p_name for keyword in media_keywords):
-        print(f"\x1b[36mMatched media -> chillwave\x1b[39m")
-        return "chillwave"
+        print(f"\x1b[36mMatched 'media'\x1b[39m")
+        return config.get("Playlists", "media")
 
     # Communication & Social
     comm_keywords = [
@@ -392,8 +393,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "weechat",
     ]
     if any(keyword in p_name for keyword in comm_keywords):
-        print(f"\x1b[36mMatched communication -> upbeat pop\x1b[39m")
-        return "upbeat pop"
+        print(f"\x1b[36mMatched 'communication'\x1b[39m")
+        return config.get("Playlists", "communication")
 
     # Terminals & Command Line
     terminal_keywords = [
@@ -422,8 +423,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "pwsh",
     ]
     if any(keyword in p_name for keyword in terminal_keywords):
-        print(f"\x1b[36mMatched terminal -> chiptune\x1b[39m")
-        return "chiptune"
+        print(f"\x1b[36mMatched 'terminal'\x1b[39m")
+        return config.get("Playlists", "terminal")
 
     # Office & Productivity
     office_keywords = [
@@ -471,8 +472,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "notes",
     ]
     if any(keyword in p_name for keyword in office_keywords):
-        print(f"\x1b[36mMatched office -> jazz\x1b[39m")
-        return "jazz"
+        print(f"\x1b[36mMatched 'office'\x1b[39m")
+        return config.get("Playlists", "office")
 
     # Design & Creative
     design_keywords = [
@@ -514,8 +515,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "octane",
     ]
     if any(keyword in p_name for keyword in design_keywords):
-        print(f"\x1b[36mMatched design -> ambient\x1b[39m")
-        return "ambient"
+        print(f"\x1b[36mMatched 'design'\x1b[39m")
+        return config.get("Playlists", "design")
 
     # Video & Audio Editing
     video_keywords = [
@@ -541,8 +542,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "universal audio",
     ]
     if any(keyword in p_name for keyword in video_keywords):
-        print(f"\x1b[36mMatched video editing -> cinematic\x1b[39m")
-        return "cinematic"
+        print(f"\x1b[36mMatched 'video editing'\x1b[39m")
+        return config.get("Playlists", "vid_editing")
 
     # File Management & System
     file_mgr_keywords = [
@@ -580,8 +581,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "performance monitor",
     ]
     if any(keyword in p_name for keyword in file_mgr_keywords):
-        print(f"\x1b[36mMatched file management -> minimal techno\x1b[39m")
-        return "minimal techno"
+        print(f"\x1b[36mMatched 'file management'\x1b[39m")
+        return config.get("Playlists", "file_mgmt")
 
     # Security & VPN
     security_keywords = [
@@ -617,7 +618,7 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
     ]
     if any(keyword in p_name for keyword in security_keywords):
         print(f"\x1b[36mMatched security -> dark electronic\x1b[39m")
-        return "dark electronic"
+        return config.get("Playlists", "security")
 
     # Virtual Machines & Containers
     vm_keywords = [
@@ -641,8 +642,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "playonlinux",
     ]
     if any(keyword in p_name for keyword in vm_keywords):
-        print(f"\x1b[36mMatched virtualization -> cyberpunk\x1b[39m")
-        return "cyberpunk"
+        print(f"\x1b[36mMatched 'virtualization'\x1b[39m")
+        return config.get("Playlists", "virtualization")
 
     # Database & Data Tools
     db_keywords = [
@@ -679,8 +680,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "dagster",
     ]
     if any(keyword in p_name for keyword in db_keywords):
-        print(f"\x1b[36mMatched database -> progressive rock\x1b[39m")
-        return "progressive rock"
+        print(f"\x1b[36mMatched 'database'\x1b[39m")
+        return config.get("Playlists", "database")
 
     # E-commerce & Business
     ecom_keywords = [
@@ -708,8 +709,8 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "razorpay",
     ]
     if any(keyword in p_name for keyword in ecom_keywords):
-        print(f"\x1b[36mMatched ecommerce -> corporate smooth jazz\x1b[39m")
-        return "corporate smooth jazz"
+        print(f"\x1b[36mMatched 'ecommerce'\x1b[39m")
+        return config.get("Playlists", "ecommerce")
 
     # Reading & Documentation
     reading_keywords = [
@@ -743,11 +744,11 @@ def map_process_to_genre(process_name, cmdline_str="", verbose=False):
         "zettlr",
     ]
     if any(keyword in p_name for keyword in reading_keywords):
-        print(f"\x1b[36mMatched reading -> acoustic folk\x1b[39m")
-        return "acoustic folk"
+        print(f"\x1b[36mMatched 'reading'\x1b[39m")
+        return config.get("Playlists", "reading")
 
-    print(f"\x1b[36mNo match found, using default -> lofi hip hop\x1b[39m")
-    return "lofi hip hop"  # A good, neutral default
+    print(f"\x1b[36mNo match found, using default\x1b[39m")
+    return config.get("Playlists", "default")  # A good, neutral default
 
 
 def get_process_name_map():
@@ -1076,13 +1077,40 @@ def set_repeat(mode="off"):
 
 def spotify_play(genre):
     """Sends a GET request to the Spotify API to set the repeat mode."""
-    print(f"-> Attempting to set playcontext to playlist {genre}...")
+    type = "playlist"
+    ID = None
+    if "open" in genre:
+        matches = re.match(
+            r"https:\/\/open\.spotify\.com\/(?P<type>\w+)\/(?P<ID>\w+)(?:\?\S+)?", genre
+        )
+        if matches is None:
+            print(f"\x1b[31mERROR: Invalid Spotify URL format:\x1b[39m {genre}")
+            return
+        type = matches.group("type")
+        ID = matches.group("ID")
+    elif "spotify" in genre:
+        matches = re.match(r"spotify:(?P<type>\w+):(?P<ID>\w+)(?:\?\S+)?", genre)
+        if matches is None:
+            print(f"\x1b[31mERROR: Invalid Spotify URL format:\x1b[39m {genre}")
+            return
+        type = matches.group("type")
+        ID = matches.group("ID")
+    else:
+        matches = re.match(r"(?P<ID>\w+)(?:\?\S+)?", genre)
+        if matches is None:
+            print(f"\x1b[31mERROR: Invalid Spotify URL format:\x1b[39m {genre}")
+            return
+        ID = matches.group("ID")
+
+    print(
+        f"-> Attempting to set playcontext to playlist {genre} -> spotify:{type}:{ID}..."
+    )
     url = f"https://api.spotify.com/v1/me/player/play"
     headers = {
         "Authorization": f"Bearer  {access_token}",
         "Content-Type": "application/json",
     }
-    data = {"context_uri": f"spotify:playlist:{genre}"}
+    data = {"context_uri": f"spotify:{type}:{ID}"}
     try:
         response = requests.get(url, json=data, headers=headers, timeout=5)
         response.raise_for_status()

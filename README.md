@@ -36,7 +36,12 @@ Beacause this is a Python project, you don't need to compile anything.
      //Windows/Unix/virtual environment
      py|python3|.venv/Scripts/python -m pip install requests, dotenv
      ```
-1. Run the script:
+1. Configure the playlists:
+   Add the Spotify resource URL, URI or playlist ID to the `config.ini` file, in the program category you want. For example, Visual Studio code falls under `development`.
+   - URL: <https://open.spotify.com/playlist/1aVwSGZbZ1JOkoZjyUERq5>
+   - URI: spotify:playlist:1aVwSGZbZ1JOkoZjyUERq5
+   - ID: 1aVwSGZbZ1JOkoZjyUERq5
+2. Run the script:
    ```bat
    //Windows/Unix/virtual environment
    py|python3|.venv/Scripts/python process_dj.py [--ip localhost] [--port 3000] [--interval 10] [--verbose]
