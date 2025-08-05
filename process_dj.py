@@ -926,8 +926,8 @@ Content-Type: text/html
 <!DOCTYPE html>
 <html>
     <body style="background-color:#1a1a1a;color:#f0f0f0">
-        <h1 style="display:block;margin-inline:auto;color:red">Access was denied while logging into Spotify!</h1>
-        <p>This window will close in <span id="seconds">5</span> seconds.</p>
+        <div style="margin-inline:auto;text-align:center"><h1 style="color:red">Access was denied while logging into Spotify!</h1>
+        <p>This window will close in <span id="seconds">5</span> seconds.</p></div>
     </body>
     <script>setTimeout(() => {window.close();}, 5000);
     setInterval(() => {let secs=document.getElementById("seconds");let s=parseInt(secs.innerHTML);secs.innerHTML=s-1}, 1000);</script>
@@ -988,8 +988,8 @@ Content-Type: text/html
 <!DOCTYPE html>
 <html>
     <body style="background-color:#1a1a1a;color:#f0f0f0">
-        <h1 style="display:block;margin-inline:auto;color:green">Successfully logged into Spotify!</h1>
-        <p>This window will close in <span id="seconds">5</span> seconds.</p>
+        <div style="margin-inline:auto;text-align:center"><h1 style="color:green">Successfully logged into Spotify!</h1>
+        <p>This window will close in <span id="seconds">5</span> seconds.</p></div>
     </body>
     <script>setTimeout(() => {window.close();}, 5000);
     setInterval(() => {let secs=document.getElementById("seconds");let s=parseInt(secs.innerHTML);secs.innerHTML=s-1}, 1000);</script>
